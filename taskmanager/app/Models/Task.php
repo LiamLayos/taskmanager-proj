@@ -10,10 +10,15 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'task_name',
         'description',
         'status',
+        'due_date',
     ];
 
-    public const STATUSES = ['pending', 'in_progress', 'done'];
+    protected $casts = [
+        'due_date' => 'date',
+    ];
+
+    public const STATUSES = ['Pending', 'Completed'];
 }

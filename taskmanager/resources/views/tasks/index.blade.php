@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Task Manager</title>
     <style>
-        body { font-family: system-ui, sans-serif; max-width: 700px; margin: 40px auto; background:#f6f7fb; color:#1c1d21; }
+        body { font-family: system-ui, sans-serif; max-width: 760px; margin: 40px auto; background:#f6f7fb; color:#1c1d21; }
         h1 { margin-bottom: 20px; }
         .btn { display:inline-block; padding:8px 14px; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600; border:none; cursor:pointer; }
         .btn-primary { background:#4f46e5; color:#fff; }
@@ -30,7 +30,8 @@
     <table>
         <thead>
             <tr>
-                <th>Title</th>
+                <th>Task</th>
+                <th>Due Date</th>
                 <th>Status</th>
                 <th>Actions</th>
             </tr>
@@ -38,7 +39,8 @@
         <tbody>
             @forelse ($tasks as $task)
                 <tr>
-                    <td>{{ $task->title }}</td>
+                    <td>{{ $task->task_name }}</td>
+                    <td>{{ $task->due_date?->format('M d, Y') ?? '—' }}</td>
                     <td>
                         <form class="inline" method="POST" action="{{ route('tasks.status', $task) }}">
                             @csrf
@@ -46,7 +48,7 @@
                             <select name="status" onchange="this.form.submit()">
                                 @foreach (\App\Models\Task::STATUSES as $status)
                                     <option value="{{ $status }}" @selected($task->status === $status)>
-                                        {{ ucfirst(str_replace('_', ' ', $status)) }}
+                                        {{ $status }}
                                     </option>
                                 @endforeach
                             </select>
@@ -62,7 +64,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="3">No tasks yet.</td></tr>
+                <tr><td colspan="4">No tasks yet.</td></tr>
             @endforelse
         </tbody>
     </table>

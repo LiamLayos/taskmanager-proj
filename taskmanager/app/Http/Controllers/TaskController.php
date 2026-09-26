@@ -9,7 +9,6 @@ use Illuminate\View\View;
 
 class TaskController extends Controller
 {
-    // View Tasks
     public function index(): View
     {
         $tasks = Task::latest()->get();
@@ -17,18 +16,17 @@ class TaskController extends Controller
         return view('tasks.index', compact('tasks'));
     }
 
-    // Show Add Task form
     public function create(): View
     {
         return view('tasks.create');
     }
 
-    // Add Task
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'title'       => ['required', 'string', 'max:255'],
+            'task_name'   => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'due_date'    => ['nullable', 'date'],
         ]);
 
         Task::create($validated);
@@ -36,18 +34,17 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Task added.');
     }
 
-    // Show Edit Task form
     public function edit(Task $task): View
     {
         return view('tasks.edit', compact('task'));
     }
 
-    // Edit Task (update title/description)
     public function update(Request $request, Task $task): RedirectResponse
     {
         $validated = $request->validate([
-            'title'       => ['required', 'string', 'max:255'],
+            'task_name'   => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'due_date'    => ['nullable', 'date'],
         ]);
 
         $task->update($validated);
@@ -55,11 +52,10 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Task updated.');
     }
 
-    // Update Status only
     public function updateStatus(Request $request, Task $task): RedirectResponse
     {
         $validated = $request->validate([
-            'status' => ['required', 'in:pending,in_progress,done'],
+            'status' => ['required', 'in:Pending,Completed'],
         ]);
 
         $task->update($validated);
@@ -67,7 +63,6 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Status updated.');
     }
 
-    // Delete Task
     public function destroy(Task $task): RedirectResponse
     {
         $task->delete();
