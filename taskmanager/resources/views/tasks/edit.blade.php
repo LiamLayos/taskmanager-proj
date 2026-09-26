@@ -20,13 +20,18 @@
         @csrf
         @method('PUT')
         <div>
-            <label>Title</label>
-            <input type="text" name="title" value="{{ old('title', $task->title) }}" required maxlength="255">
-            @error('title') <div class="error">{{ $message }}</div> @enderror
+            <label>Task Name</label>
+            <input type="text" name="task_name" value="{{ old('task_name', $task->task_name) }}" required maxlength="255">
+            @error('task_name') <div class="error">{{ $message }}</div> @enderror
         </div>
         <div>
             <label>Description</label>
             <textarea name="description" rows="4">{{ old('description', $task->description) }}</textarea>
+        </div>
+        <div>
+            <label>Due Date</label>
+            <input type="date" name="due_date" value="{{ old('due_date', $task->due_date?->format('Y-m-d')) }}">
+            @error('due_date') <div class="error">{{ $message }}</div> @enderror
         </div>
         <button class="btn" type="submit">Save Changes</button>
     </form>

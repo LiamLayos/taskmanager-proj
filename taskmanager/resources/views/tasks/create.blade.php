@@ -19,13 +19,18 @@
     <form method="POST" action="{{ route('tasks.store') }}">
         @csrf
         <div>
-            <label>Title</label>
-            <input type="text" name="title" value="{{ old('title') }}" required maxlength="255">
-            @error('title') <div class="error">{{ $message }}</div> @enderror
+            <label>Task Name</label>
+            <input type="text" name="task_name" value="{{ old('task_name') }}" required maxlength="255">
+            @error('task_name') <div class="error">{{ $message }}</div> @enderror
         </div>
         <div>
             <label>Description</label>
             <textarea name="description" rows="4">{{ old('description') }}</textarea>
+        </div>
+        <div>
+            <label>Due Date</label>
+            <input type="date" name="due_date" value="{{ old('due_date') }}">
+            @error('due_date') <div class="error">{{ $message }}</div> @enderror
         </div>
         <button class="btn" type="submit">Add Task</button>
     </form>
